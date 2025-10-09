@@ -1,1 +1,1 @@
-# CMUG_Python_Projects
+# CMUG Python Projects
