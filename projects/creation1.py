@@ -1,18 +1,19 @@
 # This should draw the logo for "The Good Work" by HarryBlank.
 
-from cmu_graphics import Circle, Polygon, gradient, runApp
+from cmu_graphics import Circle, Polygon, Line, gradient, runApp, rgb
 
 from math import sin, cos, radians
 from typing import Tuple, Dict
-from os import system 
+from os import system
 
+white: str = 'white'
 black: str = 'black'
 red: str   = 'red'
 
 system('clear')
 
 # Functions
-def rotate(x: float, y: float, degrees: int, xo=200, yo=200) -> Tuple[int, int]:
+def rotate(x: float, y: float, degrees: float, xo=200, yo=200) -> Tuple[int, int]:
     rads: float = radians(-degrees)
     
     tx: float = x - xo
@@ -92,7 +93,7 @@ SCPMotifTopBG: Polygon = Polygon(
     mdims['bg2']['x'],mdims['bg2']['y'],
     mdims['bg3']['x'],mdims['bg3']['y'],
     mdims['bg4']['x'],mdims['bg4']['y'],
-    fill=red
+    fill=gradient(red, rgb(245,60,70), start='top')
 )
 
 SCPMotifLeftBorder: Polygon = Polygon( # UNPACKING OPERATOR RAHHH
@@ -106,7 +107,7 @@ SCPMotifLeftBG: Polygon = Polygon(
     *rotate(mdims['bg2']['x'], mdims['bg2']['y'], 120),
     *rotate(mdims['bg3']['x'], mdims['bg3']['y']+1, 120),
     *rotate(mdims['bg4']['x'], mdims['bg4']['y']+2, 120),
-    fill=red
+    fill=gradient(red, rgb(245,60,70), start='left')
 )
    
 SCPMotifRightBorder: Polygon = Polygon(
@@ -120,7 +121,37 @@ SCPMotifRightBG: Polygon = Polygon(
     *rotate(mdims['bg2']['x'], mdims['bg2']['y'], 240),
     *rotate(mdims['bg3']['x'], mdims['bg3']['y']+1, 240),
     *rotate(mdims['bg4']['x'], mdims['bg4']['y']+2, 240),
-    fill=red
+    fill=gradient(red, rgb(245,60,70), start='right')
+)
+
+# Lightning bolt
+LBTop: Polygon = Polygon(
+    230,75,
+    155,190,
+    210,220
+)
+
+LBBottom: Polygon = Polygon(
+    175,330,
+    245,195,
+    190,165
+)
+
+# Arrow
+arrowhead: Polygon = Polygon(
+    85,116,
+    100,140,
+    120,120
+)
+
+shaft: Line = Line(
+    255,225,
+    105,129,
+    lineWidth=6
+)
+
+invertedShaft: Line = Line(
+    
 )
 
 runApp(width=400, height=400)
