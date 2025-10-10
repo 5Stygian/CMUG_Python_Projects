@@ -2,7 +2,7 @@
 
 from cmu_graphics import *
 
-from math import sqrt, sin, cos, radians
+from math import sin, cos, radians
 from typing import Tuple, Dict
 
 black: str = 'black'
@@ -119,3 +119,5 @@ SCPMotifRightBG: Polygon = Polygon(
     *rotate(mdims['bg4']['x'], mdims['bg4']['y']+2, 240),
     fill=red
 )
+
+runApp(width=400, height=400)
