@@ -9,7 +9,7 @@ black: str = 'black'
 red: str   = 'red'
 
 # Functions
-def rotate(x, y, degrees, xo=200, yo=200) -> Tuple[int]:
+def rotate(x, y, degrees, xo=200, yo=200) -> Tuple[int, int]:
     rads = radians(-degrees)
     
     tx = x - xo
