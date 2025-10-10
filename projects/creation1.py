@@ -1,12 +1,15 @@
-# This should draw the logo for "The Good Work" by HarryBlank. 
+# This should draw the logo for "The Good Work" by HarryBlank.
 
-from cmu_graphics import *
+from cmu_graphics import Circle, Polygon, gradient, runApp
 
 from math import sin, cos, radians
 from typing import Tuple, Dict
+from os import system 
 
 black: str = 'black'
 red: str   = 'red'
+
+system('clear')
 
 # Functions
 def rotate(x: float, y: float, degrees: int, xo=200, yo=200) -> Tuple[int, int]:
