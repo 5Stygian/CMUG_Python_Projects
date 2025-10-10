@@ -9,17 +9,17 @@ black: str = 'black'
 red: str   = 'red'
 
 # Functions
-def rotate(x, y, degrees, xo=200, yo=200) -> Tuple[int, int]:
-    rads = radians(-degrees)
+def rotate(x: float, y: float, degrees: int, xo=200, yo=200) -> Tuple[int, int]:
+    rads: float = radians(-degrees)
     
-    tx = x - xo
-    ty = y - yo
+    tx: float = x - xo
+    ty: float = y - yo
     
-    rx = tx*cos(rads) - ty*sin(rads)
-    ry = tx*sin(rads) + ty*cos(rads)
+    rx: float = tx*cos(rads) - ty*sin(rads)
+    ry: float = tx*sin(rads) + ty*cos(rads)
     
-    fx = rx + xo
-    fy = ry + yo
+    fx: float = rx + xo
+    fy: float = ry + yo
     
     return (int(fx),int(fy))
 
