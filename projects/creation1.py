@@ -2,17 +2,26 @@
 
 from cmu_graphics import *
 
-from math import sqrt
-from typing import List
+from math import sqrt, sin, cos, radians
+from typing import Tuple, Dict
 
 black: str = 'black'
 red: str   = 'red'
 
 # Functions
-def r120(x: float, y: float) -> List[float]:
-    x = -0.5*x - (sqrt(3)/2)*y
-    y = -0.5*y - (sqrt(3)/2)*x
-    return [x,y]
+def rotate(x, y, degrees, xo=200, yo=200) -> Tuple[int]:
+    rads = radians(-degrees)
+    
+    tx = x - xo
+    ty = y - yo
+    
+    rx = tx*cos(rads) - ty*sin(rads)
+    ry = tx*sin(rads) + ty*cos(rads)
+    
+    fx = rx + xo
+    fy = ry + yo
+    
+    return (int(fx),int(fy))
 
 # Main clircle
 mainCircle: Circle = Circle(
@@ -32,54 +41,81 @@ innerCircle: Circle = Circle(
     borderWidth=12
 )
 
-# SCP motif
-def SCPMotif(
-    x1: int, y1: int,
-    x2: int, y2: int,
-    x3: int, y3: int,
-    x4: int, y4: int
-) -> None:
-    SCPMotifTopBorder: Polygon = Polygon(
-        x1,y1,
-        x2,y2,
-        x3,y3,
-        x4,y4,
-        border=black,
-        borderWidth=12
-    )
-    SCPMotifTopBG: Polygon = Polygon(
-        x1+10,y1+5,
-        x2-10,y2+5,
-        x3-10,y3,
-        x4+10,y4,
-        fill=red
-    )
+# SCP Motif
+mdims: Dict[str, Dict[str,int]] = {
+    'bd1': {
+        'x': 170,
+        'y': 20
+    },
+    'bd2': {
+        'x': 230,
+        'y': 20
+    },
+    'bd3': {
+        'x': 230,
+        'y': 48
+    },
+    'bd4': {
+        'x': 170,
+        'y': 48
+    },
     
-    x1,y1 = r120(x1,y1) # do ts for all of them
-    
-    SCPMotifRightBorder: Polygon = Polygon(
-        x1,y1,
-        x2,y2,
-        x3,y3,
-        x4,y4,
-        border=black,
-        borderWidth=12
-    )
+    'bg1': {
+        'x': 180,
+        'y': 25
+    },
+    'bg2': {
+        'x': 220,
+        'y': 25
+    },
+    'bg3': {
+        'x': 220,
+        'y': 48
+    },
+    'bg4': {
+        'x': 180,
+        'y': 48
+    }
+}
 
-SCPMotif(175,20, 225,20, 225,48, 175,48)
-
-'''SCPMotifTopBorder: Polygon = Polygon(
-    175,20,
-    225,20,
-    225,48,
-    175,48,
-    border=black,
-    borderWidth=12
+SCPMotifTopBorder: Polygon = Polygon(
+    mdims['bd1']['x'],mdims['bd1']['y'],
+    mdims['bd2']['x'],mdims['bd2']['y'],
+    mdims['bd3']['x'],mdims['bd3']['y'],
+    mdims['bd4']['x'],mdims['bd4']['y']
 )
 SCPMotifTopBG: Polygon = Polygon(
-    185,25,
-    215,25,
-    215,48,
-    185,48,
+    mdims['bg1']['x'],mdims['bg1']['y'],
+    mdims['bg2']['x'],mdims['bg2']['y'],
+    mdims['bg3']['x'],mdims['bg3']['y'],
+    mdims['bg4']['x'],mdims['bg4']['y'],
     fill=red
-)'''
+)
+
+SCPMotifLeftBorder: Polygon = Polygon( # UNPACKING OPERATOR RAHHH
+    *rotate(mdims['bd1']['x'], mdims['bd1']['y'], 120),
+    *rotate(mdims['bd2']['x'], mdims['bd2']['y'], 120),
+    *rotate(mdims['bd3']['x'], mdims['bd3']['y'], 120),
+    *rotate(mdims['bd4']['x'], mdims['bd4']['y'], 120)
+)
+SCPMotifLeftBG: Polygon = Polygon(
+    *rotate(mdims['bg1']['x'], mdims['bg1']['y'], 120),
+    *rotate(mdims['bg2']['x'], mdims['bg2']['y'], 120),
+    *rotate(mdims['bg3']['x'], mdims['bg3']['y']+1, 120),
+    *rotate(mdims['bg4']['x'], mdims['bg4']['y']+2, 120),
+    fill=red
+)
+   
+SCPMotifRightBorder: Polygon = Polygon(
+    *rotate(mdims['bd1']['x'], mdims['bd1']['y'], 240),
+    *rotate(mdims['bd2']['x'], mdims['bd2']['y'], 240),
+    *rotate(mdims['bd3']['x'], mdims['bd3']['y'], 240),
+    *rotate(mdims['bd4']['x'], mdims['bd4']['y'], 240)
+)
+SCPMotifRightBG: Polygon = Polygon(
+    *rotate(mdims['bg1']['x'], mdims['bg1']['y'], 240),
+    *rotate(mdims['bg2']['x'], mdims['bg2']['y'], 240),
+    *rotate(mdims['bg3']['x'], mdims['bg3']['y']+1, 240),
+    *rotate(mdims['bg4']['x'], mdims['bg4']['y']+2, 240),
+    fill=red
+)
