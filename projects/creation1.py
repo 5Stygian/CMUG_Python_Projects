@@ -1,4 +1,4 @@
-# This should draw the logo for "The Good Work" by HarryBlank.
+# This should draw the logo for "The Good Work" by HarryBlank (roughly).
 
 from cmu_graphics import Polygon, Circle, Line, gradient, rgb
 
