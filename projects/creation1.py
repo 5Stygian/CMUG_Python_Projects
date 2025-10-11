@@ -1,19 +1,25 @@
 # This should draw the logo for "The Good Work" by HarryBlank.
 
-from cmu_graphics import Circle, Polygon, Line, gradient, runApp, rgb
+from cmu_graphics import Polygon, Circle, Line, gradient, rgb
 
 from math import sin, cos, radians
 from typing import Tuple, Dict
-from os import system
 
+# Variables
 white: str = 'white'
 black: str = 'black'
 red: str   = 'red'
 
-system('clear')
+# Types
+## Used for readability
+## Short for "Coordinate"
+Coord = Tuple[int, int]
+
+## Short for "Coordinate Specification"
+CoordSpec = Dict[str, Dict[str, int]]
 
 # Functions
-def rotate(x: float, y: float, degrees: float, xo=200, yo=200) -> Tuple[int, int]:
+def rotate(x: int, y: int, degrees: int, xo=200, yo=200) -> Coord:
     rads: float = radians(-degrees)
     
     tx: float = x - xo
@@ -26,6 +32,12 @@ def rotate(x: float, y: float, degrees: float, xo=200, yo=200) -> Tuple[int, int
     fy: float = ry + yo
     
     return (int(fx),int(fy))
+
+def translatePoint(x: int, y: int, distx: int, disty: int) -> Coord:
+    x += distx
+    y += disty
+    
+    return (x,y)
 
 # Main clircle
 mainCircle: Circle = Circle(
@@ -46,7 +58,7 @@ innerCircle: Circle = Circle(
 )
 
 # SCP Motif
-mdims: Dict[str, Dict[str,int]] = {
+mdims: CoordSpec = {
     'bd1': {
         'x': 170,
         'y': 20
@@ -141,17 +153,71 @@ LBBottom: Polygon = Polygon(
 arrowhead: Polygon = Polygon(
     85,116,
     100,140,
-    120,120
+    115,120
 )
 
 shaft: Line = Line(
-    255,225,
+    260,226,
     105,129,
     lineWidth=6
 )
 
 invertedShaft: Line = Line(
-    
+    237,211,
+    168,168,
+    fill=white,
+    lineWidth=6
 )
 
-runApp(width=400, height=400)
+fdims: CoordSpec = {
+    'bb1': {
+        'x': 257,
+        'y': 223
+    },
+    'bb2': {
+        'x': 260,
+        'y': 247
+    },
+    
+    'bt1': {
+        'x': 257,
+        'y': 223
+    },
+    'bt2': {
+        'x': 280,
+        'y': 220
+    }
+}
+
+feather1Bottom: Line = Line(
+    fdims['bb1']['x'],fdims['bb1']['y'],
+    fdims['bb2']['x'],fdims['bb2']['y'],
+    lineWidth=6
+)
+feather1Top: Line = Line(
+    fdims['bt1']['x'],fdims['bt1']['y'],
+    fdims['bt2']['x'],fdims['bt2']['y'],
+    lineWidth=6
+)
+
+feather2Bottom: Line = Line(
+    *translatePoint(fdims['bb1']['x'],fdims['bb1']['y']-1, 14,9),
+    *translatePoint(fdims['bb2']['x'],fdims['bb2']['y']-1, 14,9),
+    lineWidth=6
+)
+feather2Top: Line = Line(
+    *translatePoint(fdims['bt1']['x'],fdims['bt1']['y']+1, 14,9),
+    *translatePoint(fdims['bt2']['x'],fdims['bt2']['y']+1, 14,9),
+    lineWidth=6
+)
+
+feather3Bottom: Line = Line(
+    *translatePoint(fdims['bb1']['x'],fdims['bb1']['y']-1, 28,18),
+    *translatePoint(fdims['bb2']['x'],fdims['bb2']['y']-1, 28,18),
+    lineWidth=6
+)
+feather3Top: Line = Line(
+    *translatePoint(fdims['bt1']['x'],fdims['bt1']['y']+1, 28,18),
+    *translatePoint(fdims['bt2']['x'],fdims['bt2']['y']+1, 28,18),
+    lineWidth=6
+)
