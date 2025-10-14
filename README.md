@@ -20,7 +20,7 @@ def redrawAll(app):
     exampleShape: Rect = drawRect(
         100,100,
         100,100,
-        fill=gradient("white","black", start="start")
+        fill=gradient("white","black", start="right")
     )
 
     exampleLabel: Label = drawLabel(
