@@ -1,5 +1,5 @@
 # CMUG Install Instructions
-### Only tested on VSCode
+*Only tested on VSCode* *
 
 - Install the CMU Graphics library from their website: [CMU Graphics Download](https://academy.cs.cmu.edu/desktop)
 - Move the folder titled ``cmu_graphcis`` into the directory with your python file that imports it
