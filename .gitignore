@@ -208,3 +208,6 @@ __marimo__/
 
 # CMU Graphics lib
 cmu_graphics
+
+# MacOS meta files
+.DS_store
