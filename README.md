@@ -10,6 +10,7 @@
 - All shape functions (``Rect``, ``Polygon``, etc.) are replaced with ``drawRect``, ``drawPolygon``, etc.
 ---
 - If your project throws an error that ends with a message about a module named 'pygame', initialize and activiate a ``.venv`` and run ``pip install pygame`` in the command line
+---
 
 This is an example of what your file should look like:
 
