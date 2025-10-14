@@ -15,6 +15,7 @@
 
 This is an example of what your file should look like:
 '''python
+
 from cmu_graphics import *
 
 def redrawAll(app):
@@ -38,4 +39,5 @@ runApp(
     width=400,
     height=400
 )
+
 '''
