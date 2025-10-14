@@ -7,8 +7,9 @@
 - Add ``from cmu_graphics import *`` to the top of the python file.
 - At the bottom of your file, add a function called ``runApp()`` with the keyword arguments ``width`` and ``height``. These will define the width and height of your window.
 - All of your code that will be drawn must be inside of a function called ``redrawAll()``. It takes a single argument, ``app``.
-- All shape functions (``Rect``, ``Polygon``, etc.) are replaced with ``drawRect``, ``drawPolygon``, etc.
 ---
+**Notes:**
+- All shape functions (``Rect``, ``Polygon``, etc.) are replaced with ``drawRect``, ``drawPolygon``, etc.
 - If your project throws an error that ends with a message about a module named 'pygame', initialize and activiate a ``.venv`` and run ``pip install pygame`` in the command line.
 ---
 
