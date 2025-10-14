@@ -233,4 +233,7 @@ def redrawAll(app):
 
 app.title = 'The Good Work'
 
-runApp(width=400, height=400)
+runApp(
+    width=400, 
+    height=400
+)
