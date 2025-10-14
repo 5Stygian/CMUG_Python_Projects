@@ -38,3 +38,10 @@ runApp(
     height=400
 )
 ```
+
+This is what your file structure should look like:
+```
+| DIRECTORY_NAME  
+ \| cmu_graphics  
+  | main.py  
+```
