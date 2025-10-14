@@ -13,31 +13,28 @@
 - All shape functions (Rect, Polygon, etc.) are replaced with "drawRect", "drawPolygon", etc.
 - If your project throws an error that ends with an error about a module named 'pygame', run "pip install pygame" in the command line
 
-This is an example of what your file should look like:
-'''python
+This is an example of what your file should look like::
 
-from cmu_graphics import *
-
-def redrawAll(app):
-    exampleShape: Rect = drawRect(
-        100,100,
-        100,100,
-        fill=gradient('white','black', start='right')
+    from cmu_graphics import *
+    
+    def redrawAll(app):
+        exampleShape: Rect = drawRect(
+            100,100,
+            100,100,
+            fill=gradient("white","black", start="start")
+        )
+    
+        exampleLabel: Label = drawLabel(
+            'Jello, World!',
+            120,350,
+            size=41,
+            fill='cornflowerBlue',
+            font='arial'
+        )
+    
+    app.title = "My Super Awesome Example Program"
+    
+    runApp(
+        width=400,
+        height=400
     )
-
-    exampleLabel: Label = drawLabel(
-        'Jello, World!',
-        120,350,
-        size=41,
-        fill='cornflowerBlue',
-        font='arial'
-    )
-
-app.title = 'My Super Awesome Example Program'
-
-runApp(
-    width=400,
-    height=400
-)
-
-'''
