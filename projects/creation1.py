@@ -25,22 +25,22 @@ CoordSpec = Dict[str, Dict[str, int]]
 # Functions
 def rotate(x: int, y: int, degrees: int, xo=200, yo=200) -> Coord:
     rads: float = radians(-degrees)
-    
+
     tx: float = x - xo
     ty: float = y - yo
-    
+
     rx: float = tx*cos(rads) - ty*sin(rads)
     ry: float = tx*sin(rads) + ty*cos(rads)
-    
+
     fx: float = rx + xo
     fy: float = ry + yo
-    
+
     return (int(fx),int(fy))
 
 def translatePoint(x: int, y: int, distx: int, disty: int) -> Coord:
     x += distx
     y += disty
-    
+
     return (x,y)
 
 #**********************************#
@@ -84,7 +84,7 @@ def redrawAll(app):
             'x': 170,
             'y': 48
         },
-        
+
         'bg1': {
             'x': 180,
             'y': 25
@@ -130,7 +130,7 @@ def redrawAll(app):
         *rotate(mdims['bg4']['x'], mdims['bg4']['y']+2, 120),
         fill=gradient(red, rgb(245,60,70), start='left')
     )
-    
+
     SCPMotifRightBorder: Polygon = drawPolygon(
         *rotate(mdims['bd1']['x'], mdims['bd1']['y'], 240),
         *rotate(mdims['bd2']['x'], mdims['bd2']['y'], 240),
@@ -187,7 +187,7 @@ def redrawAll(app):
             'x': 260,
             'y': 247
         },
-        
+
         'bt1': {
             'x': 257,
             'y': 223
@@ -234,6 +234,6 @@ def redrawAll(app):
 app.title = 'The Good Work'
 
 runApp(
-    width=400, 
+    width=400,
     height=400
 )
