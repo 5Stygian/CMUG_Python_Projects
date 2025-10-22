@@ -1,5 +1,7 @@
 from cmu_graphics import *
 
+from assets import Colors, Button
+
 import os
 
 
