@@ -64,7 +64,7 @@ class Button:
         self.buttonGroup.br = [self.background.x2, self.background.y2]
         
     # Only call when any of these attributes get changed
-    def _updateAttrs(self) -> None:
+    def __updateAttrs(self) -> None:
         self.buttonGroup.tl = [self.background.x1, self.background.y1]
         self.buttonGroup.tr = [self.background.x2, self.background.y1]
         self.buttonGroup.bl = [self.background.x1, self.background.y2]
@@ -104,7 +104,7 @@ class Button:
     def translate(self, x: int|float, y: int|float) -> Tuple:
         self.buttonGroup.centerX += x
         self.buttonGroup.centerY += y
-        self._updateAttrs()
+        self.__updateAttrs()
         return (x, y)
     
     def rotate(self, degrees: int|float, 
@@ -155,7 +155,7 @@ class Button:
         self.background.x4 += xo
         self.background.y4 += yo
         
-        self._updateAttrs()
+        self.__updateAttrs()
         
         return (
             (self.background.x1,self.background.y1),
