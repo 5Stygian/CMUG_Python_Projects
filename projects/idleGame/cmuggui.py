@@ -1,4 +1,5 @@
-from cmu_graphics import Polygon, Label, Group, rgb
+from cmu_graphics import *
+from beeprint import pp
 
 from dataclasses import dataclass
 from typing import Dict, Tuple
@@ -36,7 +37,7 @@ class Button:
         self.italic          = italic
         self.textVisible     = bgVisible
         
-        self.background = Polygon(
+        self.hitbox = Polygon(
             self.x1,self.y1,
             self.x2,self.y1,
             self.x2,self.y2,
@@ -49,7 +50,7 @@ class Button:
         
         self.text = Label(
             self.textContent,
-            self.background.centerX,self.background.centerY,
+            self.hitbox.centerX,self.hitbox.centerY,
             fill=self.textFill,
             font=self.textFont,
             bold=self.bold,
@@ -57,30 +58,31 @@ class Button:
             visible=self.textVisible
         )
     
-        self.buttonGroup = Group( self.background, self.text )
-        self.buttonGroup.tl = [self.background.x1, self.background.y1]
-        self.buttonGroup.tr = [self.background.x2, self.background.y1]
-        self.buttonGroup.bl = [self.background.x1, self.background.y2]
-        self.buttonGroup.br = [self.background.x2, self.background.y2]
+        self.buttonGroup = Group( self.hitbox, self.text )
+        self.buttonGroup.tl = [self.hitbox.x1, self.hitbox.y1]
+        self.buttonGroup.tr = [self.hitbox.x2, self.hitbox.y2]
+        self.buttonGroup.bl = [self.hitbox.x3, self.hitbox.y3]
+        self.buttonGroup.br = [self.hitbox.x4, self.hitbox.y4]
         
     # Only call when any of these attributes get changed
     def __updateAttrs(self) -> None:
-        self.buttonGroup.tl = [self.background.x1, self.background.y1]
-        self.buttonGroup.tr = [self.background.x2, self.background.y1]
-        self.buttonGroup.bl = [self.background.x1, self.background.y2]
-        self.buttonGroup.br = [self.background.x2, self.background.y2]
+        self.buttonGroup.tl = [self.hitbox.x1, self.hitbox.y1]
+        self.buttonGroup.tr = [self.hitbox.x2, self.hitbox.y2]
+        self.buttonGroup.bl = [self.hitbox.x3, self.hitbox.y3]
+        self.buttonGroup.br = [self.hitbox.x4, self.hitbox.y4]
        
     def getGroup(self) -> Group:
         return self.buttonGroup.children
         
     def getData(self) -> Dict:
         returnDict = {
-            "ClassName": self.__name__,
+            "ClassName": self.__class__.__name__,
+            "Group": f"{self.buttonGroup.children}",
             "Dimensions": {
-                "topLeft": self.buttonGroup.tl,
-                "topRight": self.buttonGroup.tr,
-                "bottomLeft": self.buttonGroup.bl,
-                "bottomRight": self.buttonGroup.br
+                "TopLeft": self.buttonGroup.tl,
+                "TopRight": self.buttonGroup.tr,
+                "BottomLeft": self.buttonGroup.bl,
+                "BottomRight": self.buttonGroup.br
             },
             "Background": {
                 "BackgroundFill": [self.bgFill.red,self.bgFill.green,self.bgFill.blue],
@@ -108,60 +110,23 @@ class Button:
         return (x, y)
     
     def rotate(self, degrees: int|float, 
-               xo: int|float = None, 
-               yo: int|float = None) -> Tuple:
+               xo: int|float|None = None, 
+               yo: int|float|None = None) -> Tuple:
         
         # set local variables
-        radians: float = rads(-degrees)
         if xo == None: xo = self.buttonGroup.centerX
         if yo == None: yo = self.buttonGroup.centerY
         
-        # translate to origin
-        self.background.x1 -= xo
-        self.background.y1 -= yo
-        
-        self.background.x2 -= xo
-        self.background.y2 -= yo
-        
-        self.background.x3 -= xo
-        self.background.y3 -= yo
-        
-        self.background.x4 -= xo
-        self.background.y4 -= yo
-        
-        # rotate around origin
-        self.background.x1 = self.background.x1*cos(radians) - self.background.y1*sin(radians)
-        self.background.y1 = self.background.x1*sin(radians) + self.background.y1*cos(radians)
-        
-        self.background.x2 = self.background.x2*cos(radians) - self.background.y2*sin(radians)
-        self.background.y2 = self.background.x2*sin(radians) + self.background.y2*cos(radians)
-        
-        self.background.x3 = self.background.x3*cos(radians) - self.background.y3*sin(radians)
-        self.background.y3 = self.background.x3*sin(radians) + self.background.y3*cos(radians)
-        
-        self.background.x4 = self.background.x4*cos(radians) - self.background.y4*sin(radians)
-        self.background.y4 = self.background.x4*sin(radians) + self.background.y4*cos(radians)
-        
-        # translate back to original position
-        self.background.x1 += xo
-        self.background.y1 += yo
-        
-        self.background.x2 += xo
-        self.background.y2 += yo
-        
-        self.background.x3 += xo
-        self.background.y3 += yo
-        
-        self.background.x4 += xo
-        self.background.y4 += yo
-        
+        self.hitbox.rotate(degrees, xo, yo)
+        self.text.rotate(degrees, xo, yo)
+
         self.__updateAttrs()
         
         return (
-            (self.background.x1,self.background.y1),
-            (self.background.x2,self.background.y2),
-            (self.background.x3,self.background.y3),
-            (self.background.x4,self.background.y4)
+            (self.hitbox.x1,self.hitbox.y1),
+            (self.hitbox.x2,self.hitbox.y2),
+            (self.hitbox.x3,self.hitbox.y3),
+            (self.hitbox.x4,self.hitbox.y4)
         )
         
         
@@ -169,18 +134,15 @@ class Button:
 if __name__ == "__main__":
     testButton = Button(
         "test",
-        50,50,
-        100,80
+        0,0,
+        30,20
     )
-    print(testButton.getGroup())
-    print(testButton.getData())
+    pp(testButton.getData(), sort_keys=False)
     
     testButton.translate(100,100)
-    print(testButton.getGroup())
-    print(testButton.getData(), "\n")
+    pp(testButton.getData(), sort_keys=False)
     
     testButton.rotate(90)
-    print(testButton.getGroup())
-    print(testButton.getData())
+    pp(testButton.getData(), sort_keys=False)
 
-    cmu_grapics.run()
+    cmu_graphics.run() # type: ignore
