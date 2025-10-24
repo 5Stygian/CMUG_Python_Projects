@@ -78,13 +78,13 @@ class Button:
         returnDict = {
             "ClassName": self.__class__.__name__,
             "Group": f"{self.buttonGroup.children}",
-            "Dimensions": {
-                "TopLeft": self.buttonGroup.tl,
-                "TopRight": self.buttonGroup.tr,
-                "BottomLeft": self.buttonGroup.bl,
-                "BottomRight": self.buttonGroup.br
-            },
             "Hitbox": {
+                "Dimensions": {
+                    "TopLeft": self.buttonGroup.tl,
+                    "TopRight": self.buttonGroup.tr,
+                    "BottomLeft": self.buttonGroup.bl,
+                    "BottomRight": self.buttonGroup.br
+                },
                 "BackgroundFill": [self.hbFill.red,self.hbFill.green,self.hbFill.blue],
                 "BorderFill": [self.hbBorder.red,self.hbBorder.green,self.hbBorder.blue],
                 "BorderWidth": self.hbBorderWidth,
