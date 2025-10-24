@@ -13,6 +13,143 @@ class Colors:
     darkerGray   = rgb(80,80,80)
     darkererGray = rgb(40,40,40)
 
+class Menu:
+    def __init__(self, x1: int|float|None = None, y1: int|float|None = None, x2: int|float|None = None, y2: int|float|None = None,
+                position: str = "custom",
+                bbFill = "lightgray", bbBorder = "gray", bbBorderWidth: int|float = 2):
+        
+        self.position = position
+        
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        
+        self.bbFill        = bbFill
+        self.bbBorder      = bbBorder
+        self.bbBorderWidth = bbBorderWidth
+        
+        self.buttonAmount = 1
+        self.buttons = { "Buttons": {} }
+        
+        match self.position:
+            case "custom":
+                self.boundingBox = Polygon(
+                    self.x1,self.y1,
+                    self.x2,self.y1,
+                    self.x2,self.y2,
+                    self.x1,self.y2,
+                    fill=self.bbFill,
+                    border=self.bbBorder,
+                    borderWidth=self.bbBorderWidth
+                )
+            case "left":
+                self.boundingBox = Polygon(
+                    0,0,
+                    app.width/2.3,0,
+                    app.width/2.3,app.height,
+                    0,app.height,
+                    fill=self.bbFill,
+                    border=self.bbBorder,
+                    borderWidth=self.bbBorderWidth
+                )
+            case "right":
+                self.boundingBox = Polygon(
+                    app.width,0,
+                    app.width-app.width/2.3,0,
+                    app.width-app.width/2.3,app.height,
+                    app.width,app.height,
+                    fill=self.bbFill,
+                    border=self.bbBorder,
+                    borderWidth=self.bbBorderWidth
+                )
+            case "center":
+                self.boundingBox = Polygon(
+                    app.width/4,app.height/4,
+                    app.width/1.333,app.height/4,
+                    app.width/1.333,app.height/1.333,
+                    app.width/4,app.height/1.333,
+                    fill=self.bbFill,
+                    border=self.bbBorder,
+                    borderWidth=self.bbBorderWidth
+                )
+        
+        self.menu = {
+            "Menu": {
+                "BoundingBox": {
+                    "Position": {
+                        "TopLeft": [self.boundingBox.left,self.boundingBox.top],
+                        "TopRight": [self.boundingBox.right,self.boundingBox.top],
+                        "BottomLeft": [self.boundingBox.left,self.boundingBox.bottom],
+                        "BottomRight": [self.boundingBox.right,self.boundingBox.bottom],
+                        "Center": [self.boundingBox.centerX,self.boundingBox.centerY],
+                    },
+                    "Color": self.boundingBox.fill,
+                    "BorderColor": self.boundingBox.border,
+                    "BorderWidth": self.boundingBox.borderWidth,
+                    "IsVisible": self.boundingBox.visible
+                }
+            }
+        }
+        self.menuGroup = Group( self.boundingBox )
+
+    def addButton(self, text, ydistance: int|float = 1.0):
+        self.buttonBoundingBox = Rect(
+            self.boundingBox.centerX/2,(40*self.buttonAmount*ydistance),
+            100,25,
+            fill="white"
+        )
+        self.buttonLabel = Label(
+            text,
+            self.buttonBoundingBox.centerX,self.buttonBoundingBox.centerY
+        )
+        
+        localButtonGroup = Group( self.buttonBoundingBox, self.buttonLabel )
+        
+        updatedButtonData = self.buttons["Buttons"].update({
+            f"Button_{self.buttonAmount}": {
+                "Index": self.buttonAmount,
+                "BoundingBox": {
+                    "Position": {
+                        "TopLeft": [self.buttonBoundingBox.left,self.buttonBoundingBox.top],
+                        "TopRight": [self.buttonBoundingBox.right,self.buttonBoundingBox.top],
+                        "BottomLeft": [self.buttonBoundingBox.left,self.buttonBoundingBox.bottom],
+                        "BottomRight": [self.buttonBoundingBox.right,self.buttonBoundingBox.bottom],
+                        "Center": [self.buttonBoundingBox.centerX,self.buttonBoundingBox.centerY],
+                    },
+                    "Color": self.buttonBoundingBox.fill,
+                    "BorderColor": self.buttonBoundingBox.border,
+                    "BorderWidth": self.buttonBoundingBox.borderWidth,
+                    "IsVisible": self.buttonBoundingBox.visible
+                },
+                "Text": {
+                    "Position": [self.buttonLabel.centerX,self.buttonLabel.centerY],
+                    "Value": self.buttonLabel.value,
+                    "Color": self.buttonLabel.fill,
+                    "Font": self.buttonLabel.font,
+                    "IsBold": self.buttonLabel.bold,
+                    "IsItalic": self.buttonLabel.italic,
+                    "IsVisible": self.buttonLabel.visible
+                }
+            }
+        })
+        
+        self.buttonAmount += 1
+        
+        self.menuGroup.toBack()
+
+    def getMenus(self):
+        return self.menu
+
+    def getButtons(self, getIndexed: bool = False, index: int = 1):
+        if getIndexed == False:
+            return self.buttons
+        elif getIndexed == True:
+            return self.buttons[f"Button_{index}"]
+    
+    def getData(self):
+        return self.menu|self.buttons
+
 class Button:
     def __init__(self, textContent: str,
                 x1: int|float, y1: int|float, x2: int|float, y2: int|float,
@@ -110,8 +247,8 @@ class Button:
         return (x, y)
 
     def rotate(self, degrees: int|float,
-               xo: int|float|None = None,
-               yo: int|float|None = None) -> Tuple:
+            xo: int|float|None = None,
+            yo: int|float|None = None) -> Tuple:
 
         # set local variables
         if xo == None: xo = self.buttonGroup.centerX
@@ -129,20 +266,26 @@ class Button:
             (self.hitbox.x4,self.hitbox.y4)
         )
 
-
 # tests
 if __name__ == "__main__":
-    testButton = Button(
+    testMenu = Menu(
+        position="left"
+    )
+    testMenu.addButton("test")
+    testMenu.addButton("test2")
+    pp(testMenu.getData(), sort_keys=False, indent=4)
+
+    '''testButton = Button(
         "test",
         0,0,
         30,20
     )
-    pp(testButton.getData(), sort_keys=False)
+    pp(testButton.getData(), sort_keys=False)'''
 
-    testButton.translate(100,100)
+    '''testButton.translate(100,100)
     pp(testButton.getData(), sort_keys=False)
 
     testButton.rotate(90)
-    pp(testButton.getData(), sort_keys=False)
+    pp(testButton.getData(), sort_keys=False)'''
 
     cmu_graphics.run() # type: ignore
